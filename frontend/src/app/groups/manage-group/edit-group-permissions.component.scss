@@ -1,0 +1,125 @@
+mat-list-item {
+  padding: 4px 0;
+}
+
+mat-checkbox {
+  width: 100%;
+}
+
+.perm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  width: 100%;
+}
+
+.perm-toggle {
+  flex: 0 0 auto;
+  align-self: center;
+  margin-top: 0;
+  /* nudge toggle to vertically center with multi-line text */
+  transform: translateY(4px);
+}
+
+.perm-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.perm-name {
+  font-weight: 600;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.perm-key {
+  color: rgba(119, 122, 123, 0.55);
+  font-size: 0.85em;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Dialog sizing and scrollable list */
+.dialog-content {
+  min-width: 720px;
+  max-width: 90vw;
+  max-height: 78vh;
+  overflow: auto;
+  padding-right: 8px; /* allow space for scrollbar */
+}
+
+.quick-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+}
+.quick-filter-label { font-weight: 600; color: rgba(255,255,255,0.9); }
+.quick-filter-input {
+  flex: 1 1 auto;
+  min-width: 160px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.95);
+}
+.quick-filter-input::placeholder { color: rgba(255,255,255,0.45); }
+
+/* Ensure slide-toggle internals align centrally */
+.perm-toggle .mat-slide-toggle-bar,
+.perm-toggle .mat-slide-toggle-thumb {
+  vertical-align: middle;
+}
+
+/* Match manage-group card/dialog dark background */
+// :host ::ng-deep .mat-dialog-container {
+//   background: #0b1216 !important;
+//   color: #ffffff !important;
+//   border-radius: 8px;
+// }
+
+// :host ::ng-deep h2[mat-dialog-title] {
+//   color: rgba(255,255,255,0.95);
+//   font-weight: 700;
+// }
+
+// :host ::ng-deep mat-dialog-content {
+//   background: transparent;
+//   color: rgba(255,255,255,0.95);
+// }
+
+// :host ::ng-deep mat-dialog-actions button[mat-stroked-button] {
+//   background: transparent;
+// }
+
+/* Stronger, specific rule for the panelClass applied to this dialog */
+// :host ::ng-deep .manage-group-dialog {
+//   background: #0b1216 !important;
+//   color: #ffffff !important;
+//   border-radius: 8px;
+// }
+
+// :host ::ng-deep .manage-group-dialog .mat-dialog-content {
+//   background: transparent !important;
+//   color: rgba(255,255,255,0.95) !important;
+// }
+
+.group-permission{
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: #032335;
+}
+
+.entire_component{
+  background: #032335;
+  height: 100%  x;
+}

@@ -1,0 +1,12 @@
+<h2 mat-dialog-title class="title-edit-permission">{{ model.groupId && model.groupId > 0 ? 'Edit Group' : 'Add Group' }}</h2>
+<mat-dialog-content class="dialog-content">
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Group Name</mat-label>
+    <input matInput [(ngModel)]="model.groupName" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

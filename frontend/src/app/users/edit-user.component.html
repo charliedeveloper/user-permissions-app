@@ -1,0 +1,26 @@
+<h2 mat-dialog-title class="title-edit-user">{{ isEditMode ? 'Edit User' : 'Add User' }}</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="model" class="user-form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" maxlength="25" />
+      @if (isNameInvalid('firstName')) {
+        <mat-error>{{ getNameErrorMessage('firstName') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" maxlength="25" />
+      @if (isNameInvalid('lastName')) {
+        <mat-error>{{ getNameErrorMessage('lastName') }}</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" type="submit" [disabled]="model.invalid" (click)="save()">Save</button>
+</mat-dialog-actions>

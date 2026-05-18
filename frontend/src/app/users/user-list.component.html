@@ -1,0 +1,31 @@
+<aside class="left-column mat-elevation-z2 side-panel">
+  <mat-toolbar color="primary" class="toolbar">
+    <span>User management</span>
+    <span class="spacer"></span>
+  </mat-toolbar>
+
+  <div class="user-tab-container">
+  <div class="left-list">
+    <div class="users-list">
+      @if (users) {
+        @for (u of users; track u.userId) {
+          <div class="user-row" [class.selected]="u.userName === selectedUserName" (click)="onSelect(u)">
+            <span class="user-name">{{ u.lastName }}, {{ u.firstName }}</span>
+            @if ((u.userName || '').toLowerCase() === 'admin') {
+              <button
+                mat-icon-button
+                class="inline-add-user-btn"
+                aria-label="Add user"
+                (click)="$event.stopPropagation(); onAddUser()"
+              >
+                <mat-icon>person_add</mat-icon>
+              </button>
+            }
+          </div>
+        }
+      }
+
+    </div>
+  </div>
+  </div>
+</aside>

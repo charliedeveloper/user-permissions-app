@@ -1,0 +1,19 @@
+:root { --left-width: 320px; }
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+.app-root {
+	display: flex;
+	height: 100vh;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+
+user-list { }
+
+user-detail-tabs { flex: 1; }
+
+/* make sure left column and right column align flush */
+.app-root > user-list { box-shadow: none; }
+
+

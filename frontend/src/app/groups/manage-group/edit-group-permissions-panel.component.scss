@@ -1,0 +1,334 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-container {
+  background-color: #1a1f2e;
+  border: 1px solid #2a3142;
+  border-radius: 8px;
+  max-width: 720px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #2a3142;
+    border-radius: 3px;
+
+    &:hover {
+      background: #3a4152;
+    }
+  }
+}
+
+/* Stronger scrollbar styling for the panel to avoid white default scrollbar */
+.dialog-container::-webkit-scrollbar {
+  width: 10px;
+}
+.dialog-container::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.dialog-container::-webkit-scrollbar-thumb {
+  background: #2a3142 !important;
+  border-radius: 6px !important;
+}
+.dialog-container::-webkit-scrollbar-thumb:hover {
+  background: #3a4152 !important;
+}
+
+/* Firefox scrollbar colors */
+.dialog-container {
+  scrollbar-color: #2a3142 transparent;
+  scrollbar-width: thin;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #2a3142;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff;
+
+    .user-name {
+      color: #c9f031;
+      font-weight: 600;
+    }
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgba(201, 240, 49, 0.1);
+      color: #c9f031;
+    }
+  }
+}
+
+.dialog-content {
+  padding: 20px;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 20px;
+  font-size: 14px;
+  margin-bottom: 0;
+  margin-top: 0;
+
+  &.alert-success {
+    background-color: #1e5631;
+    color: #4caf50;
+    border: 1px solid #4caf50;
+  }
+
+  &.alert-error {
+    background-color: #5c1a1a;
+    color: #ff6b6b;
+    border: 1px solid #ff6b6b;
+  }
+}
+
+.permissions-section {
+  .section-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .assigned-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #cbd5df;
+  }
+
+  .assigned-text { font-size: 13px; color: #cbd5df; }
+
+  .toggle-switch.small {
+    width: 36px;
+    height: 20px;
+  }
+
+  .toggle-switch.small .toggle-slider:before {
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    top: 2px;
+  }
+
+  .toggle-switch.small .toggle-slider {
+    border-radius: 20px;
+  }
+
+  .permissions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .quick-filter {
+    margin-bottom: 8px;
+
+    .quick-filter-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #2a3142;
+      background: #0f1419;
+      color: #fff;
+      font-size: 13px;
+
+      &::placeholder { color: #6f7788; }
+
+      &:focus {
+        border-color: #c9f031;
+        box-shadow: 0 0 8px rgba(201,240,49,0.08);
+        outline: none;
+      }
+    }
+  }
+}
+
+.permission-item {
+  display: flex;
+  align-items: center;
+
+  .permission-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 12px;
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      display: inline-block;
+      flex: 0 0 auto;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        margin: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #2a3142;
+        transition: all 0.2s ease;
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        content: '';
+        position: absolute;
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        top: 3px;
+        background: #fff;
+        transition: all 0.2s ease;
+        border-radius: 50%;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      input:checked + .toggle-slider {
+        background: #4caf50;
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(20px);
+      }
+    }
+
+    .permission-name {
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .permission-key {
+      font-size: 12px;
+      color: #666;
+      margin-left: 4px;
+    }
+
+    &:hover {
+      background-color: rgba(201, 240, 49, 0.08);
+
+      .permission-name {
+        color: #c9f031;
+      }
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 20px;
+  border-top: 1px solid #2a3142;
+  background-color: #0f1419;
+
+  .btn {
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &.btn-primary {
+      background-color: #c9f031;
+      color: #0f1419;
+
+      &:hover:not(:disabled) {
+        background-color: #b8de1a;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    &.btn-secondary {
+      background-color: #2a3142;
+      color: #ffffff;
+
+      &:hover:not(:disabled) {
+        background-color: #3a4152;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

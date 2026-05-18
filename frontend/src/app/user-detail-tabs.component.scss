@@ -1,0 +1,55 @@
+
+.right-column {
+	flex: 1;
+	padding: 8px 10px;
+	box-sizing: border-box;
+  // border: 1px solid #2a3142;
+	height: 100vh;
+	overflow: auto;
+	background: #030303; /* large dark area like screenshot */
+}
+.detail-card {
+	background: #0b1216 !important; /* dark card background */
+	color: #fff;
+	box-shadow: none;
+	border-radius: 6px;
+  border: 1px solid #2a3142;
+  padding: 8px 10px;
+}
+
+
+.tab-content { padding: 12px 0; color: #fff; }
+.empty-placeholder { color: rgba(255,255,255,0.6); font-size: 14px; }
+.card-subtitle { color: rgba(255, 255, 255, 0.428); }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.user-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  flex: 1;
+}
+
+// .mat-tab-group {
+//   --mat-tab-indicator-color: #087c5d !important;
+//   --mat-tab-indicator-height: 2px !important;
+// }
+
+.tab-text {
+  color: rgba(96, 95, 95, 0.5) !important;
+}
+
+.tab-text-active {
+  color: #0073bb !important;
+}

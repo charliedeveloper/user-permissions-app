@@ -1,0 +1,25 @@
+.title-edit-user {
+  font-weight: 700;
+}
+
+.dialog-content {
+  min-width: 360px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.full {
+  width: 100%;
+}
+
+@media (max-width: 560px) {
+  .dialog-content {
+    min-width: 0;
+    width: 100%;
+  }
+}

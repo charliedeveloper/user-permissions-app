@@ -1,0 +1,42 @@
+<section class="right-column">
+  <mat-card *ngIf="user; else emptyCard" class="detail-card">
+    <div class="card-header">
+      <img class="user-avatar" [src]="'https://api.dicebear.com/7.x/avataaars/svg?seed=' + user.userId" alt="User avatar">
+      <div class="user-info">
+        <mat-card-title>{{ user.lastName }}, {{ user.firstName }}</mat-card-title>
+        <mat-card-subtitle class="card-subtitle">{{ user.email }}</mat-card-subtitle>
+      </div>
+    </div>
+
+    <mat-tab-group [(selectedIndex)]="activeIndex">
+      <mat-tab class="tab-label">
+        <ng-template mat-tab-label>
+          <span [ngClass]="activeIndex === 0 ? 'tab-text-active' : 'tab-text'">User Permissions</span>
+        </ng-template>
+        <div class="tab-content">
+          <user-permissions [userId]="user.userId"></user-permissions>
+        </div>
+      </mat-tab>
+      <mat-tab class="tab-label">
+        <ng-template mat-tab-label>
+          <span [ngClass]="activeIndex === 1 ? 'tab-text-active' : 'tab-text'">Groups</span>
+        </ng-template>
+        <div class="tab-content">
+          <app-manage-group></app-manage-group>
+        </div>
+      </mat-tab>
+      <mat-tab class="tab-label">
+        <ng-template mat-tab-label>
+          <span [ngClass]="activeIndex === 2 ? 'tab-text-active' : 'tab-text'">Permissions</span>
+        </ng-template>
+        <div class="tab-content">
+          <permission-grid></permission-grid>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+
+  <ng-template #emptyCard>
+    <div class="empty-placeholder">Select a user to view details</div>
+  </ng-template>
+</section>

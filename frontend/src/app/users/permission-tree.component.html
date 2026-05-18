@@ -1,0 +1,36 @@
+<div class="tree-toolbar">
+  <button mat-stroked-button type="button" (click)="expandAll()">Expand all</button>
+  <button mat-stroked-button type="button" (click)="collapseAll()">Collapse all</button>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="permissions-tree">
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <span class="node-label">{{ node.name }}</span>
+    @if (node.type === 'permission' && node.key) {
+      <span class="node-key">
+        <code>({{ node.key }})</code>
+      </span>
+    }
+  </mat-tree-node>
+
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <div class="mat-tree-node" matTreeNodePadding>
+      <button
+        mat-icon-button
+        matTreeNodeToggle
+        class="toggle"
+        [class.expanded]="treeControl.isExpanded(node)">
+      </button>
+      <span class="node-label group">{{ node.name }}</span>
+      @if (node.count != null) {
+        <span class="node-count">{{ node.count }}</span>
+      }
+    </div>
+    @if (treeControl.isExpanded(node)) {
+      <div class="tree-children">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </div>
+    }
+  </mat-nested-tree-node>
+</mat-tree>

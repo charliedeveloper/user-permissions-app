@@ -1,0 +1,74 @@
+//*****************************************************************
+.toolbar { display:flex; align-items:center; height:48px; background-color: #032335; }
+.spacer { flex: 1 1 auto; }
+
+.toolbar-btn {
+  margin-left: 8px;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.user-tab-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 0;
+
+  /* when host uses a negative margin to pull content up, nudge this container slightly higher */
+  @media (min-width: 1024px) {
+    margin-top: 0;
+  }
+
+  .left-list {
+    width: 220px;
+    background: #0f1419;
+    border: 1px solid #2a3142;
+    padding: 12px;
+    border-radius: 6px;
+
+    .list-header {
+      font-weight: 700;
+      color: #c9f031;
+      margin-bottom: 8px;
+    }
+
+    .users-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .user-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-radius: 6px;
+        color: #ffffff;
+        cursor: pointer;
+
+        .user-name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding-right: 6px;
+        }
+
+        .inline-add-user-btn {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          color: #c9f031;
+          flex: 0 0 auto;
+        }
+
+        &.selected {
+          background: linear-gradient(135deg, #1f2f3a, #181f2a);
+          border: 1px solid #d4ff00;
+          color: #d4ff00;
+        }
+
+        &:hover { background-color: rgba(201,240,49,0.04); }
+      }
+    }
+  }
+}

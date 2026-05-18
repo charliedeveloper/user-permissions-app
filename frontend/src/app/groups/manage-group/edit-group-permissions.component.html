@@ -1,0 +1,33 @@
+<h2 mat-dialog-title class="group-permission">Manage Permissions for "{{ data.groupName }}"</h2>
+<mat-dialog-content class="dialog-content">
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="!loading">
+    <div class="quick-filter">
+      <label for="filter" class="quick-filter-label">Quick filter</label>
+      <input id="filter" class="quick-filter-input" type="text" [(ngModel)]="filterText" placeholder="Search permissions..." />
+    </div>
+    <mat-nav-list>
+    <mat-list-item *ngFor="let p of allPermissions">
+      <div class="perm-row">
+        <mat-slide-toggle
+          [checked]="isSelected(p.permissionId)"
+          (change)="toggle(p.permissionId)"
+          color="primary"
+          class="perm-toggle"
+        ></mat-slide-toggle>
+        <div class="perm-text">
+          <div class="perm-name">{{ p.permissionName }}</div>
+          <div class="perm-key">({{ p.permissionKey }})</div>
+        </div>
+      </div>
+    </mat-list-item>
+    <div *ngIf="allPermissions.length === 0">No permissions available.</div>
+    <div *ngIf="allPermissions.length > 0 && filteredPermissions.length === 0">No permissions match.</div>
+    </mat-nav-list>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

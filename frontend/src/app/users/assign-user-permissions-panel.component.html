@@ -1,0 +1,121 @@
+<div class="dialog-overlay" (click)="closePanel()">
+  <div class="dialog-container" (click)="$event.stopPropagation()">
+    <div class="dialog-header">
+      <h2>Manage Permissions for "<span class="user-name">{{ user!.lastName }}, {{ user!.firstName }}</span>"</h2>
+      <button class="close-btn" (click)="closePanel()">✕</button>
+    </div>
+
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+    @if (errorMessage) {
+      <div class="alert alert-error">{{ errorMessage }}</div>
+    }
+
+    <div class="dialog-content">
+      <div class="dual-sections">
+        <div class="permissions-section">
+          <div class="section-header">
+            <label class="section-label">🔐 Assign User Permissions</label>
+            <label class="assigned-control">
+              <span class="toggle-switch small">
+                <input type="checkbox" [(ngModel)]="assignedOnly" />
+                <span class="toggle-slider" aria-hidden="true"></span>
+              </span>
+              <span class="assigned-text">Assigned only</span>
+            </label>
+          </div>
+          <div class="quick-filter">
+            <input type="text" class="quick-filter-input" placeholder="Filter permissions..." [(ngModel)]="permissionFilterText" />
+          </div>
+
+          <div class="permissions-list">
+            @for (permission of getFilteredPermissions(); track permission.permissionId) {
+              <div class="permission-item">
+                <label class="permission-toggle">
+                  <span class="toggle-switch">
+                    <input
+                      type="checkbox"
+                      role="switch"
+                      [attr.aria-checked]="isPermissionAssigned(permission.permissionId)"
+                      [attr.aria-disabled]="isPermissionDisabled(permission.permissionKey)"
+                      [checked]="isPermissionAssigned(permission.permissionId)"
+                      [disabled]="isPermissionDisabled(permission.permissionKey)"
+                      (change)="togglePermission(permission.permissionId)"
+                    />
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                  </span>
+                  <span class="permission-name">{{ permission.permissionName }}</span>
+                  <span class="permission-key">({{ permission.permissionKey }})</span>
+                  @if (isPermissionDisabled(permission.permissionKey)) {
+                    <span class="permission-source">
+                      From group: {{ getPermissionSource(permission.permissionKey) }}
+                    </span>
+                  }
+                </label>
+              </div>
+            }
+
+            @if (allPermissions.length === 0) {
+              <div>No permissions available.</div>
+            }
+            @if (allPermissions.length > 0 && getFilteredPermissions().length === 0) {
+              <div>No permissions match.</div>
+            }
+          </div>
+        </div>
+
+        <div class="groups-section">
+          <div class="section-header">
+            <label class="section-label">👥 Assign User Groups</label>
+            <label class="assigned-control">
+              <span class="toggle-switch small">
+                <input type="checkbox" [(ngModel)]="assignedGroupsOnly" />
+                <span class="toggle-slider" aria-hidden="true"></span>
+              </span>
+              <span class="assigned-text">Assigned only</span>
+            </label>
+          </div>
+          <div class="quick-filter">
+            <input type="text" class="quick-filter-input" placeholder="Filter groups..." [(ngModel)]="groupFilterText" />
+          </div>
+
+          <div class="permissions-list">
+            @for (group of getFilteredGroups(); track group.groupId) {
+              <div class="permission-item">
+                <label class="permission-toggle">
+                  <span class="toggle-switch">
+                    <input
+                      type="checkbox"
+                      role="switch"
+                      [attr.aria-checked]="isGroupAssigned(group.groupId)"
+                      [checked]="isGroupAssigned(group.groupId)"
+                      (change)="toggleGroup(group.groupId)"
+                    />
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                  </span>
+                  <span class="permission-name">{{ group.groupName }}</span>
+                  @if (group.permissionCount) {
+                    <span class="permission-key">({{ group.permissionCount }} permissions)</span>
+                  }
+                </label>
+              </div>
+            }
+
+            @if (allGroups.length === 0) {
+              <div>No groups available.</div>
+            }
+            @if (allGroups.length > 0 && getFilteredGroups().length === 0) {
+              <div>No groups match.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button class="btn btn-primary" (click)="saveRoles()" [disabled]="isLoading">{{ isLoading ? 'Saving...' : 'Save' }}</button>
+      <button class="btn btn-secondary" (click)="closePanel()" [disabled]="isLoading">Cancel</button>
+    </div>
+  </div>
+</div>

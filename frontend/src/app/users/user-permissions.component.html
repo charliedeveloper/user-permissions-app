@@ -1,0 +1,101 @@
+<mat-card class="permissions-card">
+  <div class="card-header">
+    <div class="header-text">
+      <mat-card-title>Manage User Permissions</mat-card-title>
+
+    </div>
+    <div class="card-actions">
+      <div class="view-toggle">
+        <button
+          mat-icon-button
+          aria-label="List view"
+          (click)="setView('list')"
+          [class.active]="viewMode === 'list'">
+          <mat-icon>view_list</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          aria-label="Tree view"
+          (click)="setView('tree')"
+          [class.active]="viewMode === 'tree'">
+          <mat-icon>account_tree</mat-icon>
+        </button>
+      </div>
+      <button mat-raised-button class="add-perm" (click)="onAssignPermission()">+ Assign Permission</button>
+    </div>
+  </div>
+
+  <div class="quick-filter">
+    <input type="text" class="quick-filter-input" placeholder="Filter permissions..." [(ngModel)]="filterText" (input)="onFilterChange()" />
+  </div>
+
+  <mat-card-content>
+    @if (loading) {
+      <div>Loading permissions…</div>
+    }
+    @if (!loading && permissions.length === 0) {
+      <div>No permissions assigned.</div>
+    }
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+
+    @if (!loading && permissions.length > 0) {
+      @if (viewMode === 'list') {
+        <div class="table-wrap">
+        <table mat-table [dataSource]="permissions" class="full-width permissions-table">
+
+      <ng-container matColumnDef="permissionKey">
+        <th mat-header-cell *matHeaderCellDef class="table-column-header">PERMISSION KEY</th>
+        <td mat-cell *matCellDef="let row"><code class="permissionKey">{{ row.permissionKey }}</code></td>
+      </ng-container>
+
+      <ng-container matColumnDef="permissionName">
+        <th mat-header-cell *matHeaderCellDef class="table-column-header sortable-header" (click)="onSort('permissionName')">
+          <span>PERMISSION NAME</span>
+          @if (sortField === 'permissionName' && sortDirection === 'asc') {
+            <mat-icon class="sort-icon">arrow_upward</mat-icon>
+          }
+          @if (sortField === 'permissionName' && sortDirection === 'desc') {
+            <mat-icon class="sort-icon">arrow_downward</mat-icon>
+          }
+        </th>
+        <td mat-cell *matCellDef="let row" class="data-row"><code class="permissionName">{{ row.permissionName }}</code></td>
+      </ng-container>
+
+      <ng-container matColumnDef="groupName">
+        <th mat-header-cell *matHeaderCellDef class="table-column-header sortable-header" (click)="onSort('groupName')">
+          <span>GROUP</span>
+          @if (sortField === 'groupName' && sortDirection === 'asc') {
+            <mat-icon class="sort-icon">arrow_upward</mat-icon>
+          }
+          @if (sortField === 'groupName' && sortDirection === 'desc') {
+            <mat-icon class="sort-icon">arrow_downward</mat-icon>
+          }
+        </th>
+        <td mat-cell *matCellDef="let row" class="data-row"><code class="permissionGroup">{{ row.groupName }}</code></td>
+      </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        </div>
+      }
+
+      @if (viewMode === 'tree') {
+        <div class="tree-wrap">
+          <permission-tree [permissions]="permissions"></permission-tree>
+        </div>
+      }
+    }
+
+  </mat-card-content>
+</mat-card>
+
+@if (showAssignPanel && currentUser) {
+  <assign-user-permissions-panel
+    [user]="currentUser"
+    [existingPermissions]="permissions"
+    (close)="onPanelClose($event)"
+  ></assign-user-permissions-panel>
+}
