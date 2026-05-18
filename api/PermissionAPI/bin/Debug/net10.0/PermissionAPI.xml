@@ -1,0 +1,1297 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PermissionAPI</name>
+    </assembly>
+    <members>
+        <member name="T:PermissionAPI.Controllers.AuthController">
+            <summary>
+            Authentication endpoints
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.Login(PermissionAPI.Models.DTOs.Auth.LoginRequestDto,System.Threading.CancellationToken)">
+            <summary>
+            User login
+            </summary>
+            <param name="loginRequest">Login credentials</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>JWT tokens and user information</returns>
+            <response code="200">Login successful</response>
+            <response code="400">Invalid credentials</response>
+            <response code="401">Account locked or authentication failed</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.Register(PermissionAPI.Models.DTOs.Auth.RegisterUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Register a new user
+            </summary>
+            <param name="registerDto">Registration data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created user</returns>
+            <response code="201">User registered successfully</response>
+            <response code="400">Invalid data or email already exists</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.RefreshToken(PermissionAPI.Models.DTOs.Auth.RefreshTokenRequestDto,System.Threading.CancellationToken)">
+            <summary>
+            Refresh access token
+            </summary>
+            <param name="refreshRequest">Refresh token request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>New JWT tokens</returns>
+            <response code="200">Token refreshed successfully</response>
+            <response code="401">Invalid or expired refresh token</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.ChangePassword(PermissionAPI.Models.DTOs.Auth.ChangePasswordDto,System.Threading.CancellationToken)">
+            <summary>
+            Change user password
+            </summary>
+            <param name="changePasswordDto">Password change data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Password changed successfully</response>
+            <response code="400">Invalid current password</response>
+            <response code="401">User not authenticated</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.Logout(System.Threading.CancellationToken)">
+            <summary>
+            Logout user
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Logged out successfully</response>
+            <response code="401">User not authenticated</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.AuthController.GetCurrentUser">
+            <summary>
+            Get current authenticated user information
+            </summary>
+            <returns>Current user details</returns>
+            <response code="200">Returns current user</response>
+            <response code="401">User not authenticated</response>
+        </member>
+        <member name="T:PermissionAPI.Controllers.GroupsController">
+            <summary>
+            Group management endpoints
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.GetAllGroups(System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of all groups</returns>
+            <response code="200">Returns the list of groups</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.GetGroupsWithPermissionCounts(System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups with their permission counts
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of all groups with permission counts</returns>
+            <response code="200">Returns the list of groups with permission counts</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.GetGroupById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a specific group by ID
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Group details</returns>
+            <response code="200">Returns the group</response>
+            <response code="404">Group not found</response>
+            <response code="400">Invalid group ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.CreateGroup(PermissionAPI.Models.DTOs.CreateGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new group
+            </summary>
+            <param name="createGroupDto">Group creation data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created group</returns>
+            <response code="201">Group created successfully</response>
+            <response code="400">Invalid input data</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.UpdateGroup(System.Int32,PermissionAPI.Models.DTOs.UpdateGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="updateGroupDto">Group update data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Group updated successfully</response>
+            <response code="400">Invalid input data</response>
+            <response code="404">Group not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.DeleteGroup(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Group deleted successfully</response>
+            <response code="400">Invalid group ID</response>
+            <response code="404">Group not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.GetGroupPermissions(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions assigned to a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permissions</returns>
+            <response code="200">Returns the list of permissions</response>
+            <response code="404">Group not found</response>
+            <response code="400">Invalid group ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.AssignPermissionToGroup(System.Int32,PermissionAPI.Models.DTOs.AssignPermissionToGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a permission to a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="assignPermissionDto">Permission assignment data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission assigned successfully</response>
+            <response code="400">Invalid input or permission already assigned</response>
+            <response code="404">Group or permission not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.RemovePermissionFromGroup(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a permission from a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission removed successfully</response>
+            <response code="400">Invalid IDs</response>
+            <response code="404">Group, permission, or association not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.GroupsController.SyncGroupPermissions(System.Int32,PermissionAPI.Models.DTOs.BulkAssignPermissionsToGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Syncs permissions for a group (replaces all existing permissions)
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="bulkAssignDto">List of permission IDs to assign</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result of bulk assignment operation</returns>
+            <response code="200">Permissions synced successfully</response>
+            <response code="400">Invalid input data</response>
+            <response code="404">Group not found</response>
+        </member>
+        <member name="T:PermissionAPI.Controllers.PermissionsController">
+            <summary>
+            Permission management endpoints
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Controllers.PermissionsController.GetAllPermissions(System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of all permissions</returns>
+            <response code="200">Returns the list of permissions</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.PermissionsController.GetPermissionById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a specific permission by ID
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Permission details</returns>
+            <response code="200">Returns the permission</response>
+            <response code="404">Permission not found</response>
+            <response code="400">Invalid permission ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.PermissionsController.CreatePermission(PermissionAPI.Models.DTOs.CreatePermissionDto,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new permission
+            </summary>
+            <param name="createPermissionDto">Permission creation data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created permission</returns>
+            <response code="201">Permission created successfully</response>
+            <response code="400">Invalid input data</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.PermissionsController.UpdatePermission(System.Int32,PermissionAPI.Models.DTOs.UpdatePermissionDto,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing permission
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="updatePermissionDto">Permission update data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission updated successfully</response>
+            <response code="400">Invalid input data</response>
+            <response code="404">Permission not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.PermissionsController.DeletePermission(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a permission
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission deleted successfully</response>
+            <response code="400">Invalid permission ID</response>
+            <response code="404">Permission not found</response>
+        </member>
+        <member name="T:PermissionAPI.Controllers.UsersController">
+            <summary>
+            User management endpoints
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.GetAllUsers(System.Threading.CancellationToken)">
+            <summary>
+            Gets all users
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of all users</returns>
+            <response code="200">Returns the list of users</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.GetUserById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a specific user by ID
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>User details</returns>
+            <response code="200">Returns the user</response>
+            <response code="404">User not found</response>
+            <response code="400">Invalid user ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.GetUserPermissions(System.Int32,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions for a specific user
+            </summary>
+            <param name="userId">The unique user identifier</param>
+            <param name="useLinq">Optional: use LINQ implementation instead of stored procedure (default: false)</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permissions assigned to the user</returns>
+            <response code="200">Returns the list of user permissions</response>
+            <response code="404">User not found</response>
+            <response code="400">Invalid user ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.GetUserGroups(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups a user belongs to
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of groups</returns>
+            <response code="200">Returns the list of groups</response>
+            <response code="404">User not found</response>
+            <response code="400">Invalid user ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.AssignUserToGroup(System.Int32,PermissionAPI.Models.DTOs.AssignUserToGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a user to a group
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="assignUserToGroupDto">Group assignment data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">User assigned to group successfully</response>
+            <response code="400">Invalid input or user already in group</response>
+            <response code="404">User or group not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.RemoveUserFromGroup(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a user from a group
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">User removed from group successfully</response>
+            <response code="400">Invalid IDs</response>
+            <response code="404">User, group, or association not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.GetUserDirectPermissions(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets only direct permissions for a user (not group-based)
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of direct permissions</returns>
+            <response code="200">Returns the list of direct permissions</response>
+            <response code="404">User not found</response>
+            <response code="400">Invalid user ID</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.AssignDirectPermissionToUser(System.Int32,PermissionAPI.Models.DTOs.AssignPermissionToUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a direct permission to a user
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="assignPermissionDto">Permission assignment data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission assigned successfully</response>
+            <response code="400">Invalid input or permission already assigned</response>
+            <response code="404">User or permission not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.RemoveDirectPermissionFromUser(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a direct permission from a user
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>No content on success</returns>
+            <response code="204">Permission removed successfully</response>
+            <response code="400">Invalid IDs</response>
+            <response code="404">User, permission, or association not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.AssignUserRoles(System.Int32,PermissionAPI.Models.DTOs.AssignUserRolesDto,System.Threading.CancellationToken)">
+            <summary>
+            Assigns multiple groups and direct permissions to a user in a single operation
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="assignUserRolesDto">Bulk assignment data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Assignment result with details</returns>
+            <response code="200">Returns assignment result</response>
+            <response code="400">Invalid user ID</response>
+            <response code="404">User not found</response>
+        </member>
+        <member name="M:PermissionAPI.Controllers.UsersController.SyncUserRoles(System.Int32,PermissionAPI.Models.DTOs.SyncUserRolesDto,System.Threading.CancellationToken)">
+            <summary>
+            Syncs user's groups and direct permissions (replaces entire lists)
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="syncUserRolesDto">Sync data containing desired groups and permissions</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Detailed sync result</returns>
+            <response code="200">Returns sync result with details</response>
+            <response code="400">Invalid user ID</response>
+            <response code="404">User not found</response>
+        </member>
+        <member name="T:PermissionAPI.Controllers.WeatherForecastController">
+            <summary>
+            Weather forecast controller for testing purposes
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Controllers.WeatherForecastController.Get">
+            <summary>
+            Gets a list of weather forecasts
+            </summary>
+            <returns>A collection of weather forecasts for the next 5 days</returns>
+            <response code="200">Returns the weather forecast list</response>
+        </member>
+        <member name="T:PermissionAPI.Models.Configuration.JwtSettings">
+            <summary>
+            JWT configuration settings
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.Configuration.JwtSettings.Secret">
+            <summary>
+            Secret key for signing tokens
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.Configuration.JwtSettings.Issuer">
+            <summary>
+            Token issuer
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.Configuration.JwtSettings.Audience">
+            <summary>
+            Token audience
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.Configuration.JwtSettings.AccessTokenExpirationMinutes">
+            <summary>
+            Access token expiration in minutes
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.Configuration.JwtSettings.RefreshTokenExpirationDays">
+            <summary>
+            Refresh token expiration in days
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.AssignmentResult">
+            <summary>
+            Result of bulk assignment operation
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.GroupsAssigned">
+            <summary>
+            Number of groups successfully assigned
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.PermissionsAssigned">
+            <summary>
+            Number of direct permissions successfully assigned
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.SkippedGroupIds">
+            <summary>
+            Groups that were already assigned (skipped)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.SkippedPermissionIds">
+            <summary>
+            Permissions that were already assigned (skipped)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.InvalidGroupIds">
+            <summary>
+            Groups that were not found
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.InvalidPermissionIds">
+            <summary>
+            Permissions that were not found
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignmentResult.Success">
+            <summary>
+            Indicates if the operation was completely successful
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.AssignPermissionToGroupDto">
+            <summary>
+            DTO for assigning a permission to a group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignPermissionToGroupDto.PermissionId">
+            <summary>
+            Permission identifier
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.AssignPermissionToUserDto">
+            <summary>
+            DTO for assigning a direct permission to a user
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignPermissionToUserDto.PermissionId">
+            <summary>
+            Permission identifier
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.AssignUserRolesDto">
+            <summary>
+            DTO for assigning groups and direct permissions to a user in a single request
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignUserRolesDto.GroupIds">
+            <summary>
+            List of group IDs to assign to the user
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignUserRolesDto.DirectPermissionIds">
+            <summary>
+            List of permission IDs to assign directly to the user
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.AssignUserToGroupDto">
+            <summary>
+            DTO for assigning a user to a group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.AssignUserToGroupDto.GroupId">
+            <summary>
+            Group identifier
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.Auth.ChangePasswordDto">
+            <summary>
+            Change password request
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.ChangePasswordDto.CurrentPassword">
+            <summary>
+            Current password
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.ChangePasswordDto.NewPassword">
+            <summary>
+            New password
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.Auth.LoginRequestDto">
+            <summary>
+            User login request
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginRequestDto.Email">
+            <summary>
+            User email address
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginRequestDto.Password">
+            <summary>
+            User password
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.Auth.LoginResponseDto">
+            <summary>
+            Login response with tokens and user information
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginResponseDto.AccessToken">
+            <summary>
+            JWT access token
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginResponseDto.RefreshToken">
+            <summary>
+            Refresh token for obtaining new access tokens
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginResponseDto.ExpiresAt">
+            <summary>
+            Token expiration time in UTC
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.LoginResponseDto.User">
+            <summary>
+            User information
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.Auth.RefreshTokenRequestDto">
+            <summary>
+            Request to refresh an access token
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RefreshTokenRequestDto.AccessToken">
+            <summary>
+            Expired or expiring access token
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RefreshTokenRequestDto.RefreshToken">
+            <summary>
+            Valid refresh token
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.Auth.RegisterUserDto">
+            <summary>
+            User registration request
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RegisterUserDto.UserName">
+            <summary>
+            Username
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RegisterUserDto.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RegisterUserDto.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RegisterUserDto.FirstName">
+            <summary>
+            First name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.Auth.RegisterUserDto.LastName">
+            <summary>
+            Last name
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.BulkAssignmentResult">
+            <summary>
+            Result of bulk permission assignment operation
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.PermissionsAdded">
+            <summary>
+            Number of permissions added
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.PermissionsRemoved">
+            <summary>
+            Number of permissions removed
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.PermissionsUnchanged">
+            <summary>
+            Number of permissions that were already assigned (unchanged)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.InvalidPermissionIds">
+            <summary>
+            Permission IDs that were not found
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.FinalPermissionIds">
+            <summary>
+            Final list of permission IDs assigned to the group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignmentResult.Success">
+            <summary>
+            Indicates if the operation was completely successful
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.BulkAssignPermissionsToGroupDto">
+            <summary>
+            Bulk assignment of permissions to a group (replaces existing permissions)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.BulkAssignPermissionsToGroupDto.PermissionIds">
+            <summary>
+            List of permission IDs to assign to the group
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.CreateGroupDto">
+            <summary>
+            DTO for creating a new group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.CreateGroupDto.GroupName">
+            <summary>
+            Group name (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.CreateGroupDto.IsActive">
+            <summary>
+            Indicates if the group is active (default: true)
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.CreatePermissionDto">
+            <summary>
+            DTO for creating a new permission
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.CreatePermissionDto.PermissionKey">
+            <summary>
+            Unique permission key (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.CreatePermissionDto.PermissionName">
+            <summary>
+            Permission name (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.CreatePermissionDto.IsActive">
+            <summary>
+            Indicates if the permission is active (default: true)
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.GroupDto">
+            <summary>
+            Data transfer object for group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupDto.GroupId">
+            <summary>
+            Group identifier
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupDto.GroupName">
+            <summary>
+            Group name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupDto.IsActive">
+            <summary>
+            Indicates if the group is active
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.GroupWithPermissionCountDto">
+            <summary>
+            Data transfer object for group with permission count
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupWithPermissionCountDto.GroupId">
+            <summary>
+            Group identifier
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupWithPermissionCountDto.GroupName">
+            <summary>
+            Group name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupWithPermissionCountDto.IsActive">
+            <summary>
+            Indicates if the group is active
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.GroupWithPermissionCountDto.PermissionCount">
+            <summary>
+            Number of permissions assigned to this group
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.PermissionDetailDto">
+            <summary>
+            Detailed data transfer object for permission
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDetailDto.PermissionId">
+            <summary>
+            Permission identifier
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDetailDto.PermissionKey">
+            <summary>
+            Unique permission key
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDetailDto.PermissionName">
+            <summary>
+            Permission name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDetailDto.IsActive">
+            <summary>
+            Indicates if the permission is active
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.PermissionDto">
+            <summary>
+            Data transfer object for user permission
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDto.UserName">
+            <summary>
+            User name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDto.PermissionKey">
+            <summary>
+            Unique permission key
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDto.PermissionName">
+            <summary>
+            Permission display name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.PermissionDto.GroupName">
+            <summary>
+            Group name (if permission is from a group, null if direct permission)
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.SyncUserRolesDto">
+            <summary>
+            DTO for syncing user's groups and direct permissions (sync/replace operation)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.SyncUserRolesDto.GroupIds">
+            <summary>
+            List of group IDs the user should belong to (replaces existing)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.SyncUserRolesDto.PermissionIds">
+            <summary>
+            List of permission IDs to assign directly to the user (replaces existing)
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.UpdateGroupDto">
+            <summary>
+            DTO for updating an existing group
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UpdateGroupDto.GroupName">
+            <summary>
+            Group name (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UpdateGroupDto.IsActive">
+            <summary>
+            Indicates if the group is active
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.UpdatePermissionDto">
+            <summary>
+            DTO for updating an existing permission
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UpdatePermissionDto.PermissionKey">
+            <summary>
+            Unique permission key (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UpdatePermissionDto.PermissionName">
+            <summary>
+            Permission name (required, max 100 characters)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UpdatePermissionDto.IsActive">
+            <summary>
+            Indicates if the permission is active
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.UserDto">
+            <summary>
+            Data transfer object for user
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.UserId">
+            <summary>
+            User identifier
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.UserName">
+            <summary>
+            User name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.Email">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.FirstName">
+            <summary>
+            First name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.LastName">
+            <summary>
+            Last name
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserDto.DateHired">
+            <summary>
+            Date hired
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.DTOs.UserRolesSyncResult">
+            <summary>
+            Result of user roles sync operation (groups and direct permissions)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.GroupsAdded">
+            <summary>
+            Number of groups added
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.GroupsRemoved">
+            <summary>
+            Number of groups removed
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.GroupsUnchanged">
+            <summary>
+            Number of groups unchanged
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.InvalidGroupIds">
+            <summary>
+            Invalid group IDs that don't exist
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.FinalGroupIds">
+            <summary>
+            Final list of valid group IDs after sync
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.PermissionsAdded">
+            <summary>
+            Number of direct permissions added
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.PermissionsRemoved">
+            <summary>
+            Number of direct permissions removed
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.PermissionsUnchanged">
+            <summary>
+            Number of direct permissions unchanged
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.InvalidPermissionIds">
+            <summary>
+            Invalid permission IDs that don't exist
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.FinalPermissionIds">
+            <summary>
+            Final list of valid permission IDs after sync
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.Success">
+            <summary>
+            Indicates if the operation was completely successful (no invalid IDs)
+            </summary>
+        </member>
+        <member name="P:PermissionAPI.Models.DTOs.UserRolesSyncResult.TotalChanges">
+            <summary>
+            Total number of changes made
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Models.SpResults.UserPermissionResult">
+            <summary>
+            Keyless entity for dbo.sp_GetUserPermissions result
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Implementations.AuthService">
+            <summary>
+            Authentication service implementation
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Implementations.GroupService">
+            <summary>
+            Implementation of group service
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Implementations.PermissionService">
+            <summary>
+            Implementation of permission service
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Implementations.UserPermissionService">
+            <summary>
+            Implementation of user permission service
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Implementations.UserPermissionService.GetUserPermissionsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets user permissions using stored procedure (recommended for performance)
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Implementations.UserPermissionService.GetUserPermissionsLinqAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets user permissions using LINQ (alternative to SP)
+            Logic: UNION of direct permissions + permissions from user's groups
+            Uses the many-to-many navigation properties generated by EF Core scaffolding
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Implementations.UserPermissionService.UserExistsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Checks if user exists (for validation)
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Implementations.UserService">
+            <summary>
+            Implementation of user service
+            </summary>
+        </member>
+        <member name="T:PermissionAPI.Services.Interfaces.IAuthService">
+            <summary>
+            Authentication service interface
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IAuthService.LoginAsync(PermissionAPI.Models.DTOs.Auth.LoginRequestDto,System.Threading.CancellationToken)">
+            <summary>
+            Authenticates a user and returns tokens
+            </summary>
+            <param name="loginRequest">Login credentials</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Login response with tokens</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IAuthService.RegisterAsync(PermissionAPI.Models.DTOs.Auth.RegisterUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Registers a new user
+            </summary>
+            <param name="registerDto">Registration data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created user DTO</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IAuthService.RefreshTokenAsync(PermissionAPI.Models.DTOs.Auth.RefreshTokenRequestDto,System.Threading.CancellationToken)">
+            <summary>
+            Refreshes an access token using a refresh token
+            </summary>
+            <param name="refreshRequest">Refresh token request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>New login response with tokens</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IAuthService.ChangePasswordAsync(System.Int32,PermissionAPI.Models.DTOs.Auth.ChangePasswordDto,System.Threading.CancellationToken)">
+            <summary>
+            Changes a user's password
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="changePasswordDto">Password change data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if successful</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IAuthService.LogoutAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Logs out a user by invalidating their refresh token
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if successful</returns>
+        </member>
+        <member name="T:PermissionAPI.Services.Interfaces.IGroupService">
+            <summary>
+            Service for group operations
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.GetAllGroupsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of groups</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.GetGroupByIdAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a group by ID
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Group DTO or null if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.CreateGroupAsync(PermissionAPI.Models.DTOs.CreateGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new group
+            </summary>
+            <param name="createGroupDto">Group creation data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created group DTO</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.UpdateGroupAsync(System.Int32,PermissionAPI.Models.DTOs.UpdateGroupDto,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="updateGroupDto">Group update data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if updated successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.DeleteGroupAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if deleted successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.GroupExistsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a group exists
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if group exists, false otherwise</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.AssignPermissionToGroupAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a permission to a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if assigned successfully, false if already assigned</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.RemovePermissionFromGroupAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a permission from a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if removed successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.GetGroupPermissionsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions for a group
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permissions</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.GetGroupsWithPermissionCountAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups with their permission counts
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of groups with permission counts</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IGroupService.SyncGroupPermissionsAsync(System.Int32,System.Collections.Generic.List{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Syncs permissions for a group (replaces all existing permissions)
+            </summary>
+            <param name="groupId">Group identifier</param>
+            <param name="permissionIds">List of permission IDs to assign</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result of bulk assignment operation</returns>
+        </member>
+        <member name="T:PermissionAPI.Services.Interfaces.IPermissionService">
+            <summary>
+            Service for permission operations
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.GetAllPermissionsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permissions</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.GetPermissionByIdAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a permission by ID
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Permission DTO or null if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.CreatePermissionAsync(PermissionAPI.Models.DTOs.CreatePermissionDto,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new permission
+            </summary>
+            <param name="createPermissionDto">Permission creation data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Created permission DTO</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.UpdatePermissionAsync(System.Int32,PermissionAPI.Models.DTOs.UpdatePermissionDto,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing permission
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="updatePermissionDto">Permission update data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if updated successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.DeletePermissionAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a permission
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if deleted successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IPermissionService.PermissionExistsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a permission exists
+            </summary>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if permission exists, false otherwise</returns>
+        </member>
+        <member name="T:PermissionAPI.Services.Interfaces.IUserPermissionService">
+            <summary>
+            Service for retrieving user permissions
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserPermissionService.GetUserPermissionsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions for a user using stored procedure
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permission DTOs</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserPermissionService.GetUserPermissionsLinqAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all permissions for a user using LINQ (alternative implementation)
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of permission DTOs</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserPermissionService.UserExistsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a user exists
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if user exists, false otherwise</returns>
+        </member>
+        <member name="T:PermissionAPI.Services.Interfaces.IUserService">
+            <summary>
+            Service for user operations
+            </summary>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.GetAllUsersAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all users
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of users</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.GetUserByIdAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets a user by ID
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>User DTO or null if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.UserExistsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a user exists
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if user exists, false otherwise</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.AssignDirectPermissionToUserAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a direct permission to a user
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if assigned successfully, false if already assigned</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.RemoveDirectPermissionFromUserAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a direct permission from a user
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="permissionId">Permission identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if removed successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.GetUserDirectPermissionsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets only direct permissions for a user (not group-based)
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of direct permissions</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.AssignUserToGroupAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a user to a group
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if assigned successfully, false if already assigned</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.RemoveUserFromGroupAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Removes a user from a group
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="groupId">Group identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if removed successfully, false if not found</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.GetUserGroupsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all groups a user belongs to
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of groups</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.AssignUserRolesAsync(System.Int32,PermissionAPI.Models.DTOs.AssignUserRolesDto,System.Threading.CancellationToken)">
+            <summary>
+            Assigns multiple groups and direct permissions to a user in a single operation
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="assignUserRolesDto">Bulk assignment data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Assignment result with details</returns>
+        </member>
+        <member name="M:PermissionAPI.Services.Interfaces.IUserService.SyncUserRolesAsync(System.Int32,PermissionAPI.Models.DTOs.SyncUserRolesDto,System.Threading.CancellationToken)">
+            <summary>
+            Syncs user's groups and direct permissions (sync/replace operation)
+            Replaces the entire list of groups and permissions with the provided lists
+            </summary>
+            <param name="userId">User identifier</param>
+            <param name="syncUserRolesDto">Sync data containing desired groups and permissions</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Detailed sync result</returns>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+    </members>
+</doc>

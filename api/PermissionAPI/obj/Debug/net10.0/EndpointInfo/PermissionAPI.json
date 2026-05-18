@@ -1,0 +1,2453 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Permission API",
+    "description": "API for managing permissions with JWT Authentication",
+    "contact": {
+      "name": "Permission API Team",
+      "email": "support@permissionapi.com"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User login",
+        "requestBody": {
+          "description": "Login credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Account locked or authentication failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new user",
+        "requestBody": {
+          "description": "Registration data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data or email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh access token",
+        "requestBody": {
+          "description": "Refresh token request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token refreshed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or expired refresh token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/change-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Change user password",
+        "requestBody": {
+          "description": "Password change data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Password changed successfully"
+          },
+          "400": {
+            "description": "Invalid current password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout user",
+        "responses": {
+          "204": {
+            "description": "Logged out successfully"
+          },
+          "401": {
+            "description": "User not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get current authenticated user information",
+        "responses": {
+          "200": {
+            "description": "Returns current user",
+            "content": {
+              "application/json": {
+                "schema": { }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Gets all groups",
+        "responses": {
+          "200": {
+            "description": "Returns the list of groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Creates a new group",
+        "requestBody": {
+          "description": "Group creation data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Group created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/with-permission-counts": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Gets all groups with their permission counts",
+        "responses": {
+          "200": {
+            "description": "Returns the list of groups with permission counts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupWithPermissionCountDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/{groupId}": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Gets a specific group by ID",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid group ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Updates an existing group",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Group update data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Group updated successfully"
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Deletes a group",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Group deleted successfully"
+          },
+          "400": {
+            "description": "Invalid group ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/{groupId}/permissions": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Gets all permissions assigned to a group",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDetailDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid group ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Assigns a permission to a group",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Permission assignment data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToGroupDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToGroupDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToGroupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Permission assigned successfully"
+          },
+          "400": {
+            "description": "Invalid input or permission already assigned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group or permission not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/{groupId}/permissions/{permissionId}": {
+      "delete": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Removes a permission from a group",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "Permission identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission removed successfully"
+          },
+          "400": {
+            "description": "Invalid IDs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group, permission, or association not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/{groupId}/permissions/sync": {
+      "put": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Syncs permissions for a group (replaces all existing permissions)",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "List of permission IDs to assign",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkAssignPermissionsToGroupDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkAssignPermissionsToGroupDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkAssignPermissionsToGroupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Permissions synced successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkAssignmentResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Permissions": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Gets all permissions",
+        "responses": {
+          "200": {
+            "description": "Returns the list of permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDetailDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Creates a new permission",
+        "requestBody": {
+          "description": "Permission creation data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Permission created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Permissions/{permissionId}": {
+      "get": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Gets a specific permission by ID",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "Permission identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PermissionDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid permission ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Updates an existing permission",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "Permission identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Permission update data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePermissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Permission updated successfully"
+          },
+          "400": {
+            "description": "Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Permissions"
+        ],
+        "summary": "Deletes a permission",
+        "parameters": [
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "Permission identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission deleted successfully"
+          },
+          "400": {
+            "description": "Invalid permission ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Permission not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets all users",
+        "responses": {
+          "200": {
+            "description": "Returns the list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets a specific user by ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/permissions": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets all permissions for a specific user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique user identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "useLinq",
+            "in": "query",
+            "description": "Optional: use LINQ implementation instead of stored procedure (default: false)",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of user permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Assigns a direct permission to a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Permission assignment data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToUserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToUserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionToUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Permission assigned successfully"
+          },
+          "400": {
+            "description": "Invalid input or permission already assigned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User or permission not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/groups": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets all groups a user belongs to",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Assigns a user to a group",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Group assignment data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserToGroupDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserToGroupDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserToGroupDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "User assigned to group successfully"
+          },
+          "400": {
+            "description": "Invalid input or user already in group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User or group not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/groups/{groupId}": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Removes a user from a group",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "Group identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User removed from group successfully"
+          },
+          "400": {
+            "description": "Invalid IDs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User, group, or association not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/permissions/direct": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Gets only direct permissions for a user (not group-based)",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of direct permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PermissionDetailDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/permissions/{permissionId}": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Removes a direct permission from a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "permissionId",
+            "in": "path",
+            "description": "Permission identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission removed successfully"
+          },
+          "400": {
+            "description": "Invalid IDs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User, permission, or association not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/roles": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Assigns multiple groups and direct permissions to a user in a single operation",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Bulk assignment data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignUserRolesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns assignment result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssignmentResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Users/{userId}/roles/sync": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Syncs user's groups and direct permissions (replaces entire lists)",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Sync data containing desired groups and permissions",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncUserRolesDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncUserRolesDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncUserRolesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns sync result with details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRolesSyncResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "summary": "Gets a list of weather forecasts",
+        "responses": {
+          "200": {
+            "description": "Returns the weather forecast list",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssignPermissionToGroupDto": {
+        "required": [
+          "permissionId"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Permission identifier",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for assigning a permission to a group"
+      },
+      "AssignPermissionToUserDto": {
+        "required": [
+          "permissionId"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Permission identifier",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for assigning a direct permission to a user"
+      },
+      "AssignUserRolesDto": {
+        "type": "object",
+        "properties": {
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "List of group IDs to assign to the user",
+            "nullable": true
+          },
+          "directPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "List of permission IDs to assign directly to the user",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for assigning groups and direct permissions to a user in a single request"
+      },
+      "AssignUserToGroupDto": {
+        "required": [
+          "groupId"
+        ],
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Group identifier",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for assigning a user to a group"
+      },
+      "AssignmentResult": {
+        "type": "object",
+        "properties": {
+          "groupsAssigned": {
+            "type": "integer",
+            "description": "Number of groups successfully assigned",
+            "format": "int32"
+          },
+          "permissionsAssigned": {
+            "type": "integer",
+            "description": "Number of direct permissions successfully assigned",
+            "format": "int32"
+          },
+          "skippedGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Groups that were already assigned (skipped)",
+            "nullable": true
+          },
+          "skippedPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Permissions that were already assigned (skipped)",
+            "nullable": true
+          },
+          "invalidGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Groups that were not found",
+            "nullable": true
+          },
+          "invalidPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Permissions that were not found",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the operation was completely successful",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Result of bulk assignment operation"
+      },
+      "BulkAssignPermissionsToGroupDto": {
+        "required": [
+          "permissionIds"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "List of permission IDs to assign to the group"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Bulk assignment of permissions to a group (replaces existing permissions)"
+      },
+      "BulkAssignmentResult": {
+        "type": "object",
+        "properties": {
+          "permissionsAdded": {
+            "type": "integer",
+            "description": "Number of permissions added",
+            "format": "int32"
+          },
+          "permissionsRemoved": {
+            "type": "integer",
+            "description": "Number of permissions removed",
+            "format": "int32"
+          },
+          "permissionsUnchanged": {
+            "type": "integer",
+            "description": "Number of permissions that were already assigned (unchanged)",
+            "format": "int32"
+          },
+          "invalidPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Permission IDs that were not found",
+            "nullable": true
+          },
+          "finalPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Final list of permission IDs assigned to the group",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the operation was completely successful",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Result of bulk permission assignment operation"
+      },
+      "ChangePasswordDto": {
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Current password"
+          },
+          "newPassword": {
+            "maxLength": 100,
+            "minLength": 6,
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$",
+            "type": "string",
+            "description": "New password"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Change password request"
+      },
+      "CreateGroupDto": {
+        "required": [
+          "groupName"
+        ],
+        "type": "object",
+        "properties": {
+          "groupName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Group name (required, max 100 characters)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the group is active (default: true)"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for creating a new group"
+      },
+      "CreatePermissionDto": {
+        "required": [
+          "permissionKey",
+          "permissionName"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionKey": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Unique permission key (required, max 100 characters)"
+          },
+          "permissionName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Permission name (required, max 100 characters)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the permission is active (default: true)"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for creating a new permission"
+      },
+      "GroupDto": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "integer",
+            "description": "Group identifier",
+            "format": "int32"
+          },
+          "groupName": {
+            "type": "string",
+            "description": "Group name",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the group is active"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for group"
+      },
+      "GroupWithPermissionCountDto": {
+        "type": "object",
+        "properties": {
+          "groupId": {
+            "type": "integer",
+            "description": "Group identifier",
+            "format": "int32"
+          },
+          "groupName": {
+            "type": "string",
+            "description": "Group name",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the group is active"
+          },
+          "permissionCount": {
+            "type": "integer",
+            "description": "Number of permissions assigned to this group",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for group with permission count"
+      },
+      "LoginRequestDto": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "description": "User email address",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 6,
+            "type": "string",
+            "description": "User password"
+          }
+        },
+        "additionalProperties": false,
+        "description": "User login request"
+      },
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "JWT access token",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token for obtaining new access tokens",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "description": "Token expiration time in UTC",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Login response with tokens and user information"
+      },
+      "PermissionDetailDto": {
+        "type": "object",
+        "properties": {
+          "permissionId": {
+            "type": "integer",
+            "description": "Permission identifier",
+            "format": "int32"
+          },
+          "permissionKey": {
+            "type": "string",
+            "description": "Unique permission key",
+            "nullable": true
+          },
+          "permissionName": {
+            "type": "string",
+            "description": "Permission name",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the permission is active"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Detailed data transfer object for permission"
+      },
+      "PermissionDto": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "User name",
+            "nullable": true
+          },
+          "permissionKey": {
+            "type": "string",
+            "description": "Unique permission key",
+            "nullable": true
+          },
+          "permissionName": {
+            "type": "string",
+            "description": "Permission display name",
+            "nullable": true
+          },
+          "groupName": {
+            "type": "string",
+            "description": "Group name (if permission is from a group, null if direct permission)",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for user permission"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "RefreshTokenRequestDto": {
+        "required": [
+          "accessToken",
+          "refreshToken"
+        ],
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Expired or expiring access token"
+          },
+          "refreshToken": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Valid refresh token"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Request to refresh an access token"
+      },
+      "RegisterUserDto": {
+        "required": [
+          "email",
+          "password",
+          "userName"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "maxLength": 100,
+            "minLength": 3,
+            "type": "string",
+            "description": "Username"
+          },
+          "email": {
+            "maxLength": 256,
+            "minLength": 0,
+            "type": "string",
+            "description": "Email address",
+            "format": "email"
+          },
+          "password": {
+            "maxLength": 100,
+            "minLength": 6,
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$",
+            "type": "string",
+            "description": "Password"
+          },
+          "firstName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "First name",
+            "nullable": true
+          },
+          "lastName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "Last name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "User registration request"
+      },
+      "SyncUserRolesDto": {
+        "required": [
+          "groupIds",
+          "permissionIds"
+        ],
+        "type": "object",
+        "properties": {
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "List of group IDs the user should belong to (replaces existing)"
+          },
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "List of permission IDs to assign directly to the user (replaces existing)"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for syncing user's groups and direct permissions (sync/replace operation)"
+      },
+      "UpdateGroupDto": {
+        "required": [
+          "groupName"
+        ],
+        "type": "object",
+        "properties": {
+          "groupName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Group name (required, max 100 characters)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the group is active"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for updating an existing group"
+      },
+      "UpdatePermissionDto": {
+        "required": [
+          "permissionKey",
+          "permissionName"
+        ],
+        "type": "object",
+        "properties": {
+          "permissionKey": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Unique permission key (required, max 100 characters)"
+          },
+          "permissionName": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "description": "Permission name (required, max 100 characters)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Indicates if the permission is active"
+          }
+        },
+        "additionalProperties": false,
+        "description": "DTO for updating an existing permission"
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "description": "User identifier",
+            "format": "int32"
+          },
+          "userName": {
+            "type": "string",
+            "description": "User name",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name",
+            "nullable": true
+          },
+          "dateHired": {
+            "type": "string",
+            "description": "Date hired",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Data transfer object for user"
+      },
+      "UserRolesSyncResult": {
+        "type": "object",
+        "properties": {
+          "groupsAdded": {
+            "type": "integer",
+            "description": "Number of groups added",
+            "format": "int32"
+          },
+          "groupsRemoved": {
+            "type": "integer",
+            "description": "Number of groups removed",
+            "format": "int32"
+          },
+          "groupsUnchanged": {
+            "type": "integer",
+            "description": "Number of groups unchanged",
+            "format": "int32"
+          },
+          "invalidGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Invalid group IDs that don't exist",
+            "nullable": true
+          },
+          "finalGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Final list of valid group IDs after sync",
+            "nullable": true
+          },
+          "permissionsAdded": {
+            "type": "integer",
+            "description": "Number of direct permissions added",
+            "format": "int32"
+          },
+          "permissionsRemoved": {
+            "type": "integer",
+            "description": "Number of direct permissions removed",
+            "format": "int32"
+          },
+          "permissionsUnchanged": {
+            "type": "integer",
+            "description": "Number of direct permissions unchanged",
+            "format": "int32"
+          },
+          "invalidPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Invalid permission IDs that don't exist",
+            "nullable": true
+          },
+          "finalPermissionIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "Final list of valid permission IDs after sync",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates if the operation was completely successful (no invalid IDs)",
+            "readOnly": true
+          },
+          "totalChanges": {
+            "type": "integer",
+            "description": "Total number of changes made",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Result of user roles sync operation (groups and direct permissions)"
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "WeatherForecast": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "temperatureF": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter 'Bearer' [space] and then your token in the text input below.\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
