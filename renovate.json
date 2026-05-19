@@ -4,8 +4,8 @@
     "config:recommended"
   ],
   "dependencyDashboard": true,
-  "prHourlyLimit": 2,
-  "prConcurrentLimit": 4,
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 6,
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
   "packageRules": [
@@ -24,6 +24,20 @@
       "matchPaths": ["api/**"],
       "groupName": "backend non-major dependencies",
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPaths": ["frontend/**"],
+      "groupName": "frontend major dependencies",
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major-update"]
+    },
+    {
+      "matchManagers": ["nuget"],
+      "matchPaths": ["api/**"],
+      "groupName": "backend major dependencies",
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major-update"]
     }
   ]
 }
